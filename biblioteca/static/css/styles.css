@@ -1,0 +1,80 @@
+:root {
+    --cream: #f9f6ef;
+    --yellow: #f4c430;
+    --dark: #2f2f2f;
+    --gray: #6b6b6b;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--cream);
+    color: var(--dark);
+}
+
+/* NAVBAR */
+.maker-navbar {
+    background-color: white;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.navbar-brand span {
+    color: var(--yellow);
+}
+
+/* HERO */
+.hero {
+    padding: 80px 20px;
+    background: linear-gradient(180deg, #ffffff 0%, var(--cream) 100%);
+}
+
+.hero h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+}
+
+.hero p {
+    max-width: 600px;
+    margin: 20px auto;
+    color: var(--gray);
+    font-size: 1.1rem;
+}
+
+/* BOTÓN */
+.maker-btn {
+    background-color: var(--yellow);
+    border: none;
+    color: #000;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 8px;
+}
+
+.maker-btn:hover {
+    background-color: #e6b800;
+}
+
+/* CARDS */
+.model-card {
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.model-image {
+    height: 180px;
+    background: linear-gradient(135deg, #eaeaea, #dcdcdc);
+}
+
+.model-body {
+    padding: 16px;
+}
+
+.model-body h5 {
+    font-weight: 600;
+}
+
+.model-body p {
+    font-size: 0.9rem;
+    color: var(--gray);
+}

@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}MakerLab{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CSS MakerLab -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg maker-navbar">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="{% url 'inicio' %}">
+            MakerLab <span>Chile</span>
+        </a>
+    </div>
+</nav>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>

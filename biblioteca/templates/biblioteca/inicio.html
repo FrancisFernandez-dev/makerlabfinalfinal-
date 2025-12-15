@@ -1,0 +1,39 @@
+{% extends "biblioteca/base.html" %}
+{% block title %}MakerLab – Biblioteca Educativa 3D{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="container text-center">
+        <h1>Biblioteca Educativa de Modelos 3D</h1>
+        <p>
+            Recursos maker para aprender creando.  
+            Diseños 3D pensados para colegios y hogares.
+        </p>
+        <a href="#" class="btn maker-btn">
+            Explorar modelos
+        </a>
+    </div>
+</section>
+
+<section class="container my-5">
+    <h2 class="section-title text-center mb-4">
+        Modelos destacados
+    </h2>
+
+    <div class="row g-4">
+        {% for i in "123456" %}
+        <div class="col-md-4">
+            <div class="model-card">
+                <div class="model-image"></div>
+                <div class="model-body">
+                    <h5>Modelo educativo</h5>
+                    <p>Aprendizaje práctico con impresión 3D</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}
