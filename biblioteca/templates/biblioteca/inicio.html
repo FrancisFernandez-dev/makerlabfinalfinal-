@@ -1,38 +1,147 @@
-{% extends "biblioteca/base.html" %}
-{% block title %}MakerLab – Biblioteca Educativa 3D{% endblock %}
+{% extends 'biblioteca/base.html' %}
+{% load static %}
 
 {% block content %}
 
-<section class="hero">
-    <div class="container text-center">
-        <h1>Biblioteca Educativa de Modelos 3D</h1>
-        <p>
-            Recursos maker para aprender creando.  
-            Diseños 3D pensados para colegios y hogares.
-        </p>
-        <a href="#" class="btn maker-btn">
-            Explorar modelos
-        </a>
+<!-- HERO -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+
+            <!-- TEXTO -->
+            <div class="col-md-6">
+                <h1 class="hero-title">
+                    Explora,<br>
+                    imprime y<br>
+                    aprende con<br>
+                    modelos 3D
+                </h1>
+
+                <p class="hero-subtitle">
+                    Recursos educativos para colegios, hogares y makers
+                </p>
+
+                <!-- Buscador principal -->
+                <form method="get" action="{% url 'lista_modelos' %}" class="hero-search d-flex">
+                    <input
+                        type="text"
+                        name="q"
+                        class="form-control"
+                        placeholder="Buscar modelos educativos..."
+                    >
+                </form>
+
+                <a href="{% url 'lista_modelos' %}" class="btn btn-hero mt-3">
+                    Explorar modelos
+                </a>
+            </div>
+
+            <!-- IMAGEN -->
+            <div class="col-md-6 text-center">
+                <img
+                    src="{% static 'img/hero-3d.jpg' %}"
+                    alt="Modelos 3D educativos"
+                    class="hero-image"
+                >
+            </div>
+
+        </div>
     </div>
 </section>
 
-<section class="container my-5">
-    <h2 class="section-title text-center mb-4">
-        Modelos destacados
-    </h2>
+<!-- SECCIÓN MODELOS -->
+<section class="models-section">
+    <div class="container">
 
-    <div class="row g-4">
-        {% for i in "123456" %}
-        <div class="col-md-4">
-            <div class="model-card">
-                <div class="model-image"></div>
-                <div class="model-body">
-                    <h5>Modelo educativo</h5>
-                    <p>Aprendizaje práctico con impresión 3D</p>
-                </div>
-            </div>
+        <h2 class="text-center mb-2">Biblioteca de Modelos 3D</h2>
+        <p class="text-center text-muted mb-4">
+            Explora los modelos educativos disponibles para escuelas y hogares.
+        </p>
+
+        <!-- Filtros -->
+        <div class="d-flex justify-content-center mb-4">
+            <form class="d-flex w-75" method="get">
+
+                <select class="form-select me-2" name="categoria">
+                    <option value="">Categoría: Todos</option>
+                    {% for categoria in categorias %}
+                        <option
+                            value="{{ categoria.id }}"
+                            {% if categoria.id|stringformat:"s" == categoria_seleccionada %}selected{% endif %}
+                        >
+                            {{ categoria.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="q"
+                    placeholder="Buscar..."
+                    value="{{ termino_busqueda }}"
+                >
+
+                <button type="submit" class="btn btn-primary ms-2">
+                    Filtrar
+                </button>
+
+            </form>
         </div>
-        {% endfor %}
+
+        <!-- Cards -->
+        <div class="row">
+
+            {% for modelo in modelos %}
+                <div class="col-md-4 mb-4">
+                    <div class="card model-card h-100">
+
+                        {% if modelo.imagen %}
+                            <img
+                                src="{{ modelo.imagen.url }}"
+                                class="card-img-top"
+                                alt="{{ modelo.nombre }}"
+                            >
+                        {% else %}
+                            <img
+                                src="{% static 'img/placeholder.png' %}"
+                                class="card-img-top"
+                                alt="Sin imagen"
+                            >
+                        {% endif %}
+
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ modelo.nombre }}</h5>
+
+                            <p class="card-text text-muted">
+                                {{ modelo.descripcion|truncatewords:20 }}
+                            </p>
+
+                            <p class="model-meta mt-auto">
+                                {{ modelo.categoria.nombre }} · {{ modelo.nivel }}
+                            </p>
+
+                            <div class="d-flex justify-content-between mt-2">
+                                <a href="{% url 'editar_modelo' modelo.id %}" class="btn btn-outline-primary btn-sm">
+                                    Editar
+                                </a>
+                                <a href="{% url 'eliminar_modelo' modelo.id %}" class="btn btn-outline-danger btn-sm">
+                                    Eliminar
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            {% empty %}
+                <div class="col-12">
+                    <p class="text-center">No se encontraron modelos.</p>
+                </div>
+            {% endfor %}
+
+        </div>
+
     </div>
 </section>
 

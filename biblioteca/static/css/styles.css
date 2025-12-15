@@ -1,80 +1,185 @@
+@charset "UTF-8";
+
+/* =========================
+   VARIABLES BASE
+========================= */
 :root {
-    --cream: #f9f6ef;
-    --yellow: #f4c430;
-    --dark: #2f2f2f;
-    --gray: #6b6b6b;
+    --cream: #FAF7F2;
+    --yellow: #F4C430;
+    --yellow-dark: #e0b320;
+    --text-dark: #2B2B2B;
+    --text-muted: #6B6B6B;
+    --card-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    --card-shadow-hover: 0 20px 40px rgba(0,0,0,0.12);
 }
 
+/* =========================
+   RESET SUAVE
+========================= */
 body {
     font-family: 'Inter', sans-serif;
-    background-color: var(--cream);
-    color: var(--dark);
+    color: var(--text-dark);
+    background-color: #fff;
 }
 
-/* NAVBAR */
+/* =========================
+   NAVBAR MAKERLAB
+========================= */
 .maker-navbar {
-    background-color: white;
-    border-bottom: 1px solid #e5e5e5;
+    background: var(--cream);
+    padding: 16px 0;
+    border-bottom: 1px solid #eee;
 }
 
-.navbar-brand span {
+.maker-navbar .navbar-brand {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.maker-navbar .navbar-brand span {
     color: var(--yellow);
 }
 
-/* HERO */
-.hero {
-    padding: 80px 20px;
-    background: linear-gradient(180deg, #ffffff 0%, var(--cream) 100%);
+/* =========================
+   HERO SECTION
+========================= */
+.hero-section {
+    background: var(--cream);
+    padding: 90px 0;
 }
 
-.hero h1 {
-    font-size: 2.4rem;
+.hero-title {
+    font-size: 3.4rem;
     font-weight: 700;
+    line-height: 1.1;
+    color: var(--text-dark);
 }
 
-.hero p {
-    max-width: 600px;
-    margin: 20px auto;
-    color: var(--gray);
-    font-size: 1.1rem;
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin: 20px 0;
 }
 
-/* BOTÓN */
-.maker-btn {
-    background-color: var(--yellow);
-    border: none;
+.hero-search input {
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+.btn-hero {
+    background: var(--yellow);
     color: #000;
     font-weight: 600;
-    padding: 12px 24px;
-    border-radius: 8px;
+    padding: 14px 30px;
+    border-radius: 999px;
+    border: none;
 }
 
-.maker-btn:hover {
-    background-color: #e6b800;
+.btn-hero:hover {
+    background: var(--yellow-dark);
+    color: #000;
 }
 
-/* CARDS */
+/* Imagen del hero */
+.hero-image {
+    max-width: 100%;
+    border-radius: 28px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* =========================
+   SECCIÓN MODELOS
+========================= */
+.models-section {
+    background: #fff;
+    padding: 60px 0;
+}
+
+/* =========================
+   CARDS DE MODELOS
+========================= */
 .model-card {
-    background-color: white;
-    border-radius: 12px;
+    border: none;
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
 }
 
-.model-image {
-    height: 180px;
-    background: linear-gradient(135deg, #eaeaea, #dcdcdc);
+.model-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--card-shadow-hover);
 }
 
-.model-body {
-    padding: 16px;
+.model-card img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
 }
 
-.model-body h5 {
+.model-card .card-body {
+    padding: 20px;
+}
+
+.model-card .card-title {
     font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text-dark);
 }
 
-.model-body p {
-    font-size: 0.9rem;
-    color: var(--gray);
+.model-card .card-text {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.model-meta {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+/* =========================
+   BOTONES
+========================= */
+.btn-outline-primary {
+    border-radius: 999px;
+}
+
+.btn-outline-danger {
+    border-radius: 999px;
+}
+
+/* =========================
+   FORMULARIOS
+========================= */
+.form-control,
+.form-select {
+    border-radius: 12px;
+    padding: 10px 14px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+
+    .hero-section {
+        padding: 60px 0;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-size: 2.4rem;
+    }
+
+    .hero-search {
+        justify-content: center;
+    }
+
+    .hero-image {
+        margin-top: 40px;
+    }
 }
