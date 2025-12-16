@@ -1,0 +1,400 @@
+/* =========================
+   VARIABLES BASE
+========================= */
+:root {
+    --cream: #FAF7F2;
+    --yellow: #F4C430;
+    --yellow-dark: #e0b320;
+    --text-dark: #2B2B2B;
+    --text-muted: #6B6B6B;
+    --card-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    --card-shadow-hover: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+/* =========================
+   RESET SUAVE
+========================= */
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-dark);
+    background-color: #fff;
+    margin: 0;
+}
+
+/* =========================
+   NAVBAR MAKERLAB
+========================= */
+.maker-navbar {
+    background: var(--cream);
+    border-bottom: 1px solid #eee;
+}
+
+/* Logo imagen */
+.navbar-logo {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+
+/* Texto del brand */
+.brand-text {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+/* MakerLab */
+.brand-main {
+    color: var(--text-dark);
+}
+
+/* Chile */
+.brand-accent {
+    color: var(--yellow);
+}
+
+/* =========================
+   HERO SECTION
+========================= */
+.hero-section {
+    background: var(--cream);
+    padding: 48px 0 90px;
+}
+
+.hero-title {
+    font-size: 3.4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text-dark);
+}
+
+.hero-subtitle {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    margin: 20px 0;
+    max-width: 520px;
+}
+
+.hero-search input {
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+/* Botón principal */
+.btn-hero {
+    background: var(--yellow);
+    color: #000;
+    font-weight: 600;
+    padding: 14px 30px;
+    border-radius: 999px;
+    border: none;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.btn-hero:hover {
+    background: var(--yellow-dark);
+    color: #000;
+    transform: translateY(-1px);
+}
+
+/* Imagen del hero */
+.hero-image {
+    width: 100%;
+    max-width: 520px;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 28px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* =========================
+   SECCIÓN MODELOS
+========================= */
+.models-section {
+    background: #fff;
+    padding: 70px 0;
+}
+
+/* =========================
+   CARDS DE MODELOS
+========================= */
+.model-card {
+    border: none;
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+}
+
+.model-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.model-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.model-card .card-body {
+    padding: 20px;
+}
+
+.model-card .card-title {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text-dark);
+}
+
+.model-card .card-text {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.model-meta {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+/* =========================
+   LINKS DE CARD
+========================= */
+.card-link {
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+.card-link:hover {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* =========================
+   FORMULARIOS
+========================= */
+.form-control,
+.form-select {
+    border-radius: 12px;
+    padding: 10px 14px;
+}
+
+/* =========================
+   STEAM BUTTONS
+========================= */
+.steam-section {
+    margin-bottom: 4rem;
+}
+
+.steam-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.steam-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.4rem;
+    border: 2px solid transparent;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    transition: all 0.25s ease;
+}
+
+.steam-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    text-align: center;
+}
+
+/* Colores STEAM */
+.steam-s .steam-icon { color: #d32f2f; border-color: rgba(211,47,47,0.25); }
+.steam-t .steam-icon { color: #f57c00; border-color: rgba(245,124,0,0.25); }
+.steam-e .steam-icon { color: #fbc02d; border-color: rgba(251,192,45,0.25); }
+.steam-a .steam-icon { color: #388e3c; border-color: rgba(56,142,60,0.25); }
+.steam-m .steam-icon { color: #0288d1; border-color: rgba(2,136,209,0.25); }
+.steam-all .steam-icon { color: var(--text-muted); border-color: #ddd; }
+
+/* Hover */
+.steam-card:hover .steam-icon {
+    transform: translateY(-3px);
+    background: #fff;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+}
+
+/* Activo */
+.steam-card.active .steam-icon {
+    background: #fff;
+    box-shadow: 0 16px 32px rgba(0,0,0,0.14);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+
+    .hero-section {
+        padding: 60px 0;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-size: 2.4rem;
+    }
+
+    .hero-subtitle {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-image {
+        height: 300px;
+        margin-top: 40px;
+    }
+
+    .model-card img {
+        height: 180px;
+    }
+}
+/* =========================
+   HERO TITLE ESTÉTICO (MAKER)
+========================= */
+
+.hero-title {
+    font-size: 3.4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text-dark);
+}
+
+/* Palabras individuales */
+.hero-word {
+    display: inline-block;
+    position: relative;
+    padding-bottom: 6px;
+}
+
+/* Explora → amarillo */
+.hero-explore {
+    color: var(--yellow);
+}
+
+/* imprime → texto oscuro + subrayado suave */
+.hero-print {
+    color: var(--text-dark);
+}
+
+.hero-print::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(244, 196, 48, 0.4);
+    border-radius: 999px;
+}
+
+/* aprende → muted elegante */
+.hero-learn {
+    color: var(--text-muted);
+}
+
+/* modelos 3D → foco visual */
+.hero-3d {
+    color: var(--text-dark);
+}
+
+.hero-3d::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(
+        90deg,
+        #f4c430,
+        #fbc02d,
+        #0288d1
+    );
+    border-radius: 999px;
+}
+
+/* =========================
+   RESPONSIVE HERO TITLE
+========================= */
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.4rem;
+    }
+}
+/* =========================
+   HERO TITLE – ESTÉTICA COLOR
+========================= */
+
+.hero-word {
+    display: inline-block;
+    position: relative;
+}
+
+/* Explora → anaranjado / amarillo */
+.hero-explora {
+    color: #f5a623; /* naranja cálido tipo amarillo */
+}
+
+/* imprime y → texto oscuro + subrayado suave */
+.hero-imprime {
+    color: var(--text-dark);
+}
+
+.hero-imprime::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 4px;
+    background: rgba(245, 166, 35, 0.35);
+    border-radius: 2px;
+}
+
+/* aprende con → gris elegante */
+.hero-aprende {
+    color: #6b6b6b;
+}
+
+/* modelos 3D → fuerte + subrayado azul */
+.hero-modelos {
+    color: var(--text-dark);
+}
+
+.hero-modelos::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #f4c430, #0288d1);
+    border-radius: 3px;
+}
