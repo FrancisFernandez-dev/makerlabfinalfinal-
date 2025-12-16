@@ -11,6 +11,7 @@ urlpatterns = [
     path('modelos/agregar/', views.agregar_modelo, name='agregar_modelo'),
     path('modelos/editar/<int:pk>/', views.editar_modelo, name='editar_modelo'),
     path('modelos/eliminar/<int:pk>/', views.eliminar_modelo, name='eliminar_modelo'),
+     path('contactanos/', views.contactanos, name='contactanos'),
 
     # Autenticación
     path(

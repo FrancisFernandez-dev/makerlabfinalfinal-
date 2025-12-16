@@ -1,21 +1,112 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Modelo 3D</title>
-</head>
-<body>
+{% extends 'biblioteca/base.html' %}
+{% load static %}
 
-<h1>Agregar un nuevo Modelo 3D</h1>
+{% block title %}Agregar modelo | MakerLab{% endblock %}
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
-</form>
+{% block content %}
 
-<a href="{% url 'lista_modelos' %}">Cancelar</a>
+<section class="models-section">
+    <div class="container">
 
-</body>
-</html>
+        <!-- TÍTULO -->
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Agregar nuevo modelo 3D</h2>
+            <p class="text-muted">
+                Comparte un recurso educativo con la comunidad MakerLab
+            </p>
+        </div>
+
+        <!-- FORMULARIO -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-body p-4 p-md-5">
+
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <!-- Nombre -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Nombre del modelo
+                                </label>
+                                {{ form.nombre }}
+                            </div>
+
+                            <!-- Descripción -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Descripción
+                                </label>
+                                {{ form.descripcion }}
+                            </div>
+
+                            <!-- Imagen -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Imagen del modelo
+                                </label>
+                                {{ form.imagen }}
+                                <div class="form-text">
+                                    Imagen representativa del modelo 3D
+                                </div>
+                            </div>
+
+                            <!-- URL -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Enlace al archivo 3D
+                                </label>
+                                {{ form.url_archivo }}
+                                <div class="form-text">
+                                    Link a Thingiverse, Cults o Google Drive
+                                </div>
+                            </div>
+
+                            <!-- Categoría -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Categoría
+                                </label>
+                                {{ form.categoria }}
+                            </div>
+
+                            <!-- Etiquetas -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Etiquetas
+                                </label>
+                                {{ form.etiquetas }}
+                            </div>
+
+                            <!-- Nivel -->
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">
+                                    Nivel educativo
+                                </label>
+                                {{ form.nivel }}
+                            </div>
+
+                            <!-- BOTONES -->
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'lista_modelos' %}" class="btn btn-outline-secondary">
+                                    Cancelar
+                                </a>
+                                <button type="submit" class="btn btn-success px-4">
+                                    Guardar modelo
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

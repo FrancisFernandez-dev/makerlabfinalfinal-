@@ -15,5 +15,13 @@ class Model3DForm(forms.ModelForm):
             'nivel'
         ]
         widgets = {
-            'etiquetas': forms.CheckboxSelectMultiple()
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 4
+            }),
+            'url_archivo': forms.URLInput(attrs={'class': 'form-control'}),
+            'categoria': forms.Select(attrs={'class': 'form-select'}),
+            'nivel': forms.Select(attrs={'class': 'form-select'}),
+            'etiquetas': forms.CheckboxSelectMultiple(),
         }

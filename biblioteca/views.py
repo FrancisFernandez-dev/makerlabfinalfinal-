@@ -38,14 +38,14 @@ def lista_modelos(request):
 
 @login_required
 def agregar_modelo(request):
-    """Vista para agregar un nuevo modelo 3D"""
     if request.method == 'POST':
         form = Model3DForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('inicio')
+            return redirect('lista_modelos')
     else:
         form = Model3DForm()
+
     return render(request, 'biblioteca/agregar_modelo.html', {'form': form})
 
 @login_required
@@ -69,3 +69,6 @@ def eliminar_modelo(request, pk):
         modelo.delete()
         return redirect('lista_modelos')
     return render(request, 'biblioteca/confirmar_eliminar.html', {'modelo': modelo})
+
+def contactanos(request):
+    return render(request, 'biblioteca/contactanos.html')

@@ -23,37 +23,58 @@
 
             {% for modelo in modelos %}
                 <div class="col-md-4 mb-4">
-                    <div class="card model-card h-100">
 
-                        {% if modelo.imagen %}
-                            <img src="{{ modelo.imagen.url }}" class="card-img-top" alt="{{ modelo.nombre }}">
-                        {% else %}
-                            <img src="{% static 'img/placeholder.png' %}" class="card-img-top" alt="Sin imagen">
-                        {% endif %}
+                    <!-- CARD COMPLETA CLICKEABLE -->
+                    <a
+                        href="{{ modelo.url_archivo }}"
+                        target="_blank"
+                        class="text-decoration-none text-dark"
+                    >
+                        <div class="card model-card h-100">
 
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">{{ modelo.nombre }}</h5>
-
-                            <p class="card-text text-muted">
-                                {{ modelo.descripcion|truncatewords:20 }}
-                            </p>
-
-                            <p class="model-meta mt-auto">
-                                {{ modelo.categoria.nombre }} · {{ modelo.nivel }}
-                            </p>
-
-                            {% if user.is_authenticated %}
-                                <div class="d-flex justify-content-end mt-2">
-                                    <a href="{% url 'editar_modelo' modelo.id %}"
-                                       class="btn btn-outline-primary btn-sm">
-                                        Editar
-                                    </a>
-                                </div>
+                            {% if modelo.imagen %}
+                                <img
+                                    src="{{ modelo.imagen.url }}"
+                                    class="card-img-top"
+                                    alt="{{ modelo.nombre }}"
+                                >
+                            {% else %}
+                                <img
+                                    src="{% static 'img/placeholder.png' %}"
+                                    class="card-img-top"
+                                    alt="Sin imagen"
+                                >
                             {% endif %}
-                        </div>
 
-                    </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">{{ modelo.nombre }}</h5>
+
+                                <p class="card-text text-muted">
+                                    {{ modelo.descripcion|truncatewords:20 }}
+                                </p>
+
+                                <p class="model-meta mt-auto">
+                                    {{ modelo.categoria.nombre }} · {{ modelo.nivel }}
+                                </p>
+                            </div>
+
+                        </div>
+                    </a>
+
+                    <!-- BOTÓN EDITAR (FUERA DEL LINK) -->
+                    {% if user.is_authenticated %}
+                        <div class="text-end mt-2">
+                            <a
+                                href="{% url 'editar_modelo' modelo.id %}"
+                                class="btn btn-outline-primary btn-sm"
+                            >
+                                Editar
+                            </a>
+                        </div>
+                    {% endif %}
+
                 </div>
+
             {% empty %}
                 <div class="col-12">
                     <p class="text-center">No se encontraron modelos.</p>
