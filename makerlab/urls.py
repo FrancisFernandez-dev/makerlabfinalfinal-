@@ -14,16 +14,16 @@ urlpatterns = [
         name='login'
     ),
     path(
-    'logout/',
-    auth_views.LogoutView.as_view(),
-    name='logout'
+        'logout/',
+        auth_views.LogoutView.as_view(),
+        name='logout'
     ),
 
     # App principal
     path('', include('biblioteca.urls')),
 ]
 
-# Servir archivos media en desarrollo
+# Media en desarrollo
 if settings.DEBUG:
     urlpatterns += static(
         settings.MEDIA_URL,

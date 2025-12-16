@@ -10,24 +10,32 @@
 
             <!-- TEXTO -->
             <div class="col-md-6">
+
                 <h1 class="hero-title">
-                    Explora,<br>
-                    imprime y<br>
-                    aprende con<br>
-                    modelos 3D
+                    <span class="hero-word hero-explora">Explora</span>,<br>
+                    <span class="hero-word hero-imprime">imprime y</span><br>
+                    <span class="hero-word hero-aprende">aprende con</span><br>
+                    <span class="hero-word hero-modelos">modelos 3D</span>
                 </h1>
 
                 <p class="hero-subtitle">
-                    Recursos educativos para colegios, hogares y makers
+                    En MakerLabChile trabajamos apoyando el desarrollo de la educación
+                    a través de la tecnología y la cultura maker, creando recursos,
+                    experiencias y herramientas que fomentan el aprendizaje activo,
+                    el pensamiento crítico y la creatividad, contribuyendo a la
+                    formación de los profesionales del futuro desde edades tempranas.
                 </p>
 
-                <!-- Buscador principal -->
-                <form method="get" action="{% url 'lista_modelos' %}" class="hero-search d-flex">
+                <!-- Buscador -->
+                <form method="get"
+                      action="{% url 'lista_modelos' %}"
+                      class="hero-search d-flex">
                     <input
                         type="text"
                         name="q"
                         class="form-control"
                         placeholder="Buscar modelos educativos..."
+                        value="{{ termino_busqueda|default:'' }}"
                     >
                 </form>
 
@@ -58,114 +66,124 @@
             Explora los modelos educativos disponibles para escuelas y hogares.
         </p>
 
-        <!-- 🔵 BOTONES STEAM -->
-        <!-- SECCIÓN STEAM -->
-        <section class="steam-categories">
-            <div class="container">
-                <h3 class="text-center mb-4">
-                    Categorías educativas (STEAM)
-                </h3>
+        <!-- STEAM -->
+        <section class="steam-categories mb-5" id="steam">
+            <h3 class="text-center mb-4">
+                Categorías educativas (STEAM)
+            </h3>
 
-                <div class="row justify-content-center g-4">
+            <div class="row justify-content-center g-4">
 
-                    <div class="col-6 col-md-2">
-                        <a href="?steam=S" class="steam-card">
-                            <div class="steam-icon">S</div>
-                            <div class="steam-label">Ciencia</div>
-                        </a>
-                    </div>
-
-                    <div class="col-6 col-md-2">
-                        <a href="?steam=T" class="steam-card">
-                            <div class="steam-icon">T</div>
-                            <div class="steam-label">Tecnología</div>
-                        </a>
-                    </div>
-
-                    <div class="col-6 col-md-2">
-                        <a href="?steam=E" class="steam-card">
-                            <div class="steam-icon">E</div>
-                            <div class="steam-label">Ingeniería</div>
-                        </a>
-                    </div>
-
-                    <div class="col-6 col-md-2">
-                        <a href="?steam=A" class="steam-card">
-                            <div class="steam-icon">A</div>
-                            <div class="steam-label">Artes</div>
-                        </a>
-                    </div>
-
-                    <div class="col-6 col-md-2">
-                        <a href="?steam=M" class="steam-card">
-                            <div class="steam-icon">M</div>
-                            <div class="steam-label">Matemáticas</div>
-                        </a>
-                    </div>
-
+                <!-- S -->
+                <div class="col-6 col-md-2">
+                    <a href="?steam=S#steam"
+                       class="steam-card steam-s {% if steam_activo == 'S' %}active{% endif %}">
+                        <div class="steam-icon">S</div>
+                        <div class="steam-label">Ciencia</div>
+                    </a>
                 </div>
+
+                <!-- T -->
+                <div class="col-6 col-md-2">
+                    <a href="?steam=T#steam"
+                       class="steam-card steam-t {% if steam_activo == 'T' %}active{% endif %}">
+                        <div class="steam-icon">T</div>
+                        <div class="steam-label">Tecnología</div>
+                    </a>
+                </div>
+
+                <!-- E -->
+                <div class="col-6 col-md-2">
+                    <a href="?steam=E#steam"
+                       class="steam-card steam-e {% if steam_activo == 'E' %}active{% endif %}">
+                        <div class="steam-icon">E</div>
+                        <div class="steam-label">Ingeniería</div>
+                    </a>
+                </div>
+
+                <!-- A -->
+                <div class="col-6 col-md-2">
+                    <a href="?steam=A#steam"
+                       class="steam-card steam-a {% if steam_activo == 'A' %}active{% endif %}">
+                        <div class="steam-icon">A</div>
+                        <div class="steam-label">Artes</div>
+                    </a>
+                </div>
+
+                <!-- M -->
+                <div class="col-6 col-md-2">
+                    <a href="?steam=M#steam"
+                       class="steam-card steam-m {% if steam_activo == 'M' %}active{% endif %}">
+                        <div class="steam-icon">M</div>
+                        <div class="steam-label">Matemáticas</div>
+                    </a>
+                </div>
+
+                <!-- TODOS -->
+                <div class="col-6 col-md-2">
+                    <a href="{% url 'inicio' %}#steam"
+                       class="steam-card steam-all {% if not steam_activo %}active{% endif %}">
+                        <div class="steam-icon">★</div>
+                        <div class="steam-label">Todos</div>
+                    </a>
+                </div>
+
             </div>
         </section>
 
-        
-
-
-        <!-- Botón agregar (solo logueado) -->
+        <!-- BOTÓN AGREGAR -->
         {% if user.is_authenticated %}
-            <div class="d-flex justify-content-end mb-4">
-                <a href="{% url 'agregar_modelo' %}" class="btn btn-success">
-                    + Agregar modelo
-                </a>
-            </div>
+        <div class="d-flex justify-content-end mb-4">
+            <a href="{% url 'agregar_modelo' %}" class="btn btn-success">
+                + Agregar modelo
+            </a>
+        </div>
         {% endif %}
 
-        <!-- Cards -->
+        <!-- CARDS -->
         <div class="row">
 
             {% for modelo in modelos %}
-                <div class="col-md-4 mb-4">
+            <div class="col-md-4 mb-4">
 
-                    <!-- CARD CLICKEABLE -->
-                    <a href="{{ modelo.url_archivo }}"
-                       target="_blank"
-                       class="card-link text-decoration-none">
+                <a href="{{ modelo.url_archivo }}"
+                   target="_blank"
+                   class="card-link">
 
-                        <div class="card model-card h-100">
+                    <div class="card model-card h-100">
 
-                            {% if modelo.imagen %}
-                                <img
-                                    src="{{ modelo.imagen.url }}"
-                                    class="card-img-top"
-                                    alt="{{ modelo.nombre }}"
-                                >
-                            {% else %}
-                                <img
-                                    src="{% static 'img/placeholder.png' %}"
-                                    class="card-img-top"
-                                    alt="Sin imagen"
-                                >
-                            {% endif %}
+                        {% if modelo.imagen %}
+                            <img src="{{ modelo.imagen.url }}"
+                                 class="card-img-top"
+                                 alt="{{ modelo.nombre }}">
+                        {% else %}
+                            <img src="{% static 'img/placeholder.png' %}"
+                                 class="card-img-top"
+                                 alt="Sin imagen">
+                        {% endif %}
 
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">{{ modelo.nombre }}</h5>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ modelo.nombre }}</h5>
 
-                                <p class="card-text text-muted">
-                                    {{ modelo.descripcion|truncatewords:20 }}
-                                </p>
+                            <p class="card-text text-muted">
+                                {{ modelo.descripcion|truncatewords:20 }}
+                            </p>
 
-                                <p class="model-meta mt-auto">
-                                    {{ modelo.categoria.nombre }} · {{ modelo.nivel }}
-                                </p>
-                            </div>
-
+                            <p class="model-meta mt-auto">
+                                {{ modelo.categoria.get_steam_display }} · {{ modelo.nivel }}
+                            </p>
                         </div>
-                    </a>
 
-                </div>
+                    </div>
+                </a>
+
+            </div>
             {% empty %}
-                <div class="col-12">
-                    <p class="text-center">No se encontraron modelos.</p>
-                </div>
+            <div class="col-12">
+                <p class="text-center">
+                    No se encontraron modelos para esta categoría.
+                </p>
+            </div>
             {% endfor %}
 
         </div>

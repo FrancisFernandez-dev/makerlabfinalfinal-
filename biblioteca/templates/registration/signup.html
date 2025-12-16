@@ -1,0 +1,28 @@
+{% extends "biblioteca/base.html" %}
+
+{% block title %}Registrarse | MakerLab{% endblock %}
+
+{% block content %}
+<div class="container my-5" style="max-width: 420px;">
+
+    <h2 class="text-center mb-4">
+        Crear cuenta
+    </h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-hero w-100 mt-3">
+            Registrarse
+        </button>
+    </form>
+
+    <p class="text-center mt-3 text-muted">
+        ¿Ya tienes cuenta?
+        <a href="{% url 'login' %}">Inicia sesión</a>
+    </p>
+
+</div>
+{% endblock %}
