@@ -26,7 +26,8 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # ==============================
 SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-dev-key")
 
-DEBUG = True  # ⚠️ En Render idealmente False
+DEBUG = os.getenv("DEBUG", "False") == "True"
+  # ⚠️ En Render idealmente False
 
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS",
