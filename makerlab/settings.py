@@ -137,10 +137,9 @@ STORAGES = {
 
 # 👉 Cloudinary (MEDIA)
 CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
-    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
-    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
+    "CLOUD_NAME": "dowaawbybl",
 }
+
 
 # ❌ NO USAR MEDIA LOCAL EN PRODUCCIÓN
 # MEDIA_URL = '/media/'
