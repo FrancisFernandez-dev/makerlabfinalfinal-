@@ -105,7 +105,7 @@ STORAGES = {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        # Cambiado de Manifest a Compressed para evitar el error FileNotFoundError
+        # USA ESTE EXACTAMENTE:
         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
