@@ -158,3 +158,10 @@ USE_TZ = True
 # DEFAULT FIELD
 # ======================================================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+print(
+    "CLOUDINARY CHECK →",
+    os.getenv("CLOUDINARY_CLOUD_NAME"),
+    os.getenv("CLOUDINARY_API_KEY"),
+    bool(os.getenv("CLOUDINARY_API_SECRET")),
+)
