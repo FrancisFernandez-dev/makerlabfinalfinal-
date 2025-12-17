@@ -6,11 +6,11 @@ import cloudinary_storage
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ==============================
-# SECURITY
+# SEGURIDAD
 # ==============================
 SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-dev-key")
 
-# RECOMENDACIÓN: Cambia a True si necesitas ver el error exacto en pantalla
+# En Render, pon la variable de entorno DEBUG=True para ver errores detallados
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv(
@@ -18,12 +18,23 @@ ALLOWED_HOSTS = os.getenv(
     "localhost,127.0.0.1,makerlabchile.onrender.com"
 ).split(",")
 
+# Indispensable para que Render acepte subidas de formularios (POST)
+CSRF_TRUSTED_ORIGINS = [
+    "https://makerlabchile.onrender.com",
+]
+
+# Configuración de Cookies para HTTPS (Producción)
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = 'Lax'
+
 # ==============================
-# APPLICATIONS
+# APLICACIONES (El orden es vital)
 # ==============================
 INSTALLED_APPS = [
-    # Cloudinary storage debe ir ANTES de staticfiles
-    'cloudinary_storage',
+    'cloudinary_storage',  # DEBE IR ANTES DE STATICFILES
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,7 +51,7 @@ INSTALLED_APPS = [
 # ==============================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # Para archivos estáticos en Render
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Para estáticos en Render
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -72,10 +83,10 @@ TEMPLATES = [
 ]
 
 # ==============================
-# DATABASE
+# BASE DE DATOS
 # ==============================
-# NOTA: SQLite en Render es efímero. Los datos se borrarán en cada deploy
-# a menos que uses un "Persistent Disk".
+# Recuerda que en Render los datos de SQLite se borran al reiniciar/desplegar
+# a menos que uses un disco persistente (Persistent Disk).
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -84,7 +95,7 @@ DATABASES = {
 }
 
 # ==============================
-# CLOUDINARY & STORAGE
+# CLOUDINARY & ALMACENAMIENTO
 # ==============================
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv("CLOUDINARY_CLOUD_NAME"),
@@ -102,16 +113,16 @@ STORAGES = {
 }
 
 # ==============================
-# STATIC & MEDIA FILES
+# ARCHIVOS ESTÁTICOS Y MEDIA
 # ==============================
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Crucial para que Django maneje las URLs de las imágenes subidas
-MEDIA_URL = '/media/' 
+# Obligatorio para construir las URLs de las fotos
+MEDIA_URL = '/media/'
 
 # ==============================
-# AUTH & OTHERS
+# AUTH & OTROS
 # ==============================
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'inicio'
