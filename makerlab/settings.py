@@ -4,15 +4,15 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-# ==============================
+# ======================================================
 # BASE DIR
-# ==============================
+# ======================================================
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# ==============================
+# ======================================================
 # SECURITY
-# ==============================
+# ======================================================
 SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-dev-key")
 
 DEBUG = os.getenv("DEBUG", "False") == "True"
@@ -23,9 +23,9 @@ ALLOWED_HOSTS = os.getenv(
 ).split(",")
 
 
-# ==============================
+# ======================================================
 # APPLICATIONS
-# ==============================
+# ======================================================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,12 +43,13 @@ INSTALLED_APPS = [
 ]
 
 
-# ==============================
+# ======================================================
 # MIDDLEWARE
-# ==============================
+# ======================================================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,17 +59,16 @@ MIDDLEWARE = [
 ]
 
 
-# ==============================
+# ======================================================
 # URLS / WSGI
-# ==============================
+# ======================================================
 ROOT_URLCONF = 'makerlab.urls'
-
 WSGI_APPLICATION = 'makerlab.wsgi.application'
 
 
-# ==============================
-# TEMPLATES (OBLIGATORIO PARA ADMIN)
-# ==============================
+# ======================================================
+# TEMPLATES (REQUERIDO PARA ADMIN)
+# ======================================================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -86,9 +86,9 @@ TEMPLATES = [
 ]
 
 
-# ==============================
+# ======================================================
 # DATABASE
-# ==============================
+# ======================================================
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -97,9 +97,9 @@ DATABASES = {
 }
 
 
-# ==============================
-# CLOUDINARY CONFIG (CRÍTICO)
-# ==============================
+# ======================================================
+# CLOUDINARY (MEDIA STORAGE)
+# ======================================================
 cloudinary.config(
     cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
     api_key=os.getenv("CLOUDINARY_API_KEY"),
@@ -123,16 +123,38 @@ CLOUDINARY_STORAGE = {
 }
 
 
-# ==============================
+# ======================================================
 # STATIC FILES
-# ==============================
+# ======================================================
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
-# ==============================
+# ======================================================
+# MEDIA (OBLIGATORIO AUNQUE USES CLOUDINARY)
+# ======================================================
+MEDIA_URL = '/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
+# ======================================================
 # AUTH
-# ==============================
+# ======================================================
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'inicio'
 LOGOUT_REDIRECT_URL = 'inicio'
+
+
+# ======================================================
+# INTERNATIONALIZATION
+# ======================================================
+LANGUAGE_CODE = 'es'
+TIME_ZONE = 'UTC'
+USE_I18N = True
+USE_TZ = True
+
+
+# ======================================================
+# DEFAULT FIELD
+# ======================================================
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
