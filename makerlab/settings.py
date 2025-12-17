@@ -1,21 +1,16 @@
 import os
 from pathlib import Path
-import dj_database_url  # Asegúrate de tenerlo en requirements.txt
+import dj_database_url
 import cloudinary
 
-cloudinary.config(
-    cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"),
-    api_key = os.getenv("CLOUDINARY_API_KEY"),
-    api_secret = os.getenv("CLOUDINARY_API_SECRET"),
-    secure = True
-)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ==============================
 # SEGURIDAD
 # ==============================
 SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-dev-key")
-DEBUG = os.getenv("DEBUG", "False") == "True"
+# Forzamos DEBUG True para ver la pantalla amarilla si algo falla
+DEBUG = os.getenv("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS",
@@ -35,7 +30,7 @@ if not DEBUG:
 # APLICACIONES
 # ==============================
 INSTALLED_APPS = [
-    'cloudinary_storage',
+    'cloudinary_storage', # DEBE ir antes de staticfiles
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,7 +46,7 @@ INSTALLED_APPS = [
 # ==============================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # Debe ir después de SecurityMiddleware
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -80,12 +75,11 @@ TEMPLATES = [
 ]
 
 # ==============================
-# BASE DE DATOS (PARCHE PARA RENDER GRATIS)
+# BASE DE DATOS
 # ==============================
-# Intentará usar DATABASE_URL (Neon/Postgres), si no, usa SQLite en /tmp/ para evitar Error 500
 if os.getenv('DATABASE_URL'):
     DATABASES = {
-        'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
     }
 else:
     DATABASES = {
@@ -96,7 +90,7 @@ else:
     }
 
 # ==============================
-# CLOUDINARY
+# CLOUDINARY CONFIG (Corregido)
 # ==============================
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv("CLOUDINARY_CLOUD_NAME"),
@@ -104,26 +98,47 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.getenv("CLOUDINARY_API_SECRET"),
 }
 
+# Configuración explícita para asegurar conexión
+cloudinary.config(
+    cloud_name = CLOUDINARY_STORAGE['CLOUD_NAME'],
+    api_key = CLOUDINARY_STORAGE['API_KEY'],
+    api_secret = CLOUDINARY_STORAGE['API_SECRET'],
+    secure = True
+)
+
 # ==============================
-# STORAGES (CORREGIDO PARA EVITAR BUILD FAILED)
+# STORAGES
 # ==============================
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        # USA ESTE EXACTAMENTE:
         "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
 
 # ==============================
-# ARCHIVOS ESTÁTICOS Y MEDIA
+# LOGGING (ESTO ES LO MÁS IMPORTANTE PARA EL DEBUG)
 # ==============================
+# Esto forzará a Render a mostrar el error exacto en los Logs cuando ocurra un Error 500
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # Asegúrate de que esta carpeta exista
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_URL = '/media/'
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
