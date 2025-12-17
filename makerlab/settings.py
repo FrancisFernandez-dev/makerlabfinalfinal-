@@ -1,7 +1,14 @@
 import os
 from pathlib import Path
 import dj_database_url  # Asegúrate de tenerlo en requirements.txt
+import cloudinary
 
+cloudinary.config(
+    cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key = os.getenv("CLOUDINARY_API_KEY"),
+    api_secret = os.getenv("CLOUDINARY_API_SECRET"),
+    secure = True
+)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ==============================
