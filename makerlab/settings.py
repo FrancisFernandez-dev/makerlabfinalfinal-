@@ -1,18 +1,27 @@
 import os
 from pathlib import Path
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
+# ==============================
+# BASE DIR
+# ==============================
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # ==============================
 # SECURITY
 # ==============================
-SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = os.getenv("DEBUG") == "True"
+SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-dev-key")
+
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS",
     "localhost,127.0.0.1"
 ).split(",")
+
 
 # ==============================
 # APPLICATIONS
@@ -33,6 +42,7 @@ INSTALLED_APPS = [
     'biblioteca',
 ]
 
+
 # ==============================
 # MIDDLEWARE
 # ==============================
@@ -47,11 +57,34 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 # ==============================
 # URLS / WSGI
 # ==============================
 ROOT_URLCONF = 'makerlab.urls'
+
 WSGI_APPLICATION = 'makerlab.wsgi.application'
+
+
+# ==============================
+# TEMPLATES (OBLIGATORIO PARA ADMIN)
+# ==============================
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'biblioteca' / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
 
 # ==============================
 # DATABASE
@@ -63,9 +96,17 @@ DATABASES = {
     }
 }
 
+
 # ==============================
-# CLOUDINARY (MEDIA STORAGE)
+# CLOUDINARY CONFIG (CRÍTICO)
 # ==============================
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+    secure=True,
+)
+
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
@@ -81,11 +122,13 @@ CLOUDINARY_STORAGE = {
     "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
 }
 
+
 # ==============================
 # STATIC FILES
 # ==============================
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 # ==============================
 # AUTH
