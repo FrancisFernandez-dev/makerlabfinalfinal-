@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
-import cloudinary
-import cloudinary_storage
+import dj_database_url  # Asegúrate de tenerlo en requirements.txt
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -9,8 +8,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SEGURIDAD
 # ==============================
 SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-dev-key")
-
-# En Render, pon la variable de entorno DEBUG=True para ver errores detallados
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv(
@@ -18,30 +15,26 @@ ALLOWED_HOSTS = os.getenv(
     "localhost,127.0.0.1,makerlabchile.onrender.com"
 ).split(",")
 
-# Indispensable para que Render acepte subidas de formularios (POST)
 CSRF_TRUSTED_ORIGINS = [
     "https://makerlabchile.onrender.com",
 ]
 
-# Configuración de Cookies para HTTPS (Producción)
 if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_HTTPONLY = True
-    SESSION_COOKIE_SAMESITE = 'Lax'
 
 # ==============================
-# APLICACIONES (El orden es vital)
+# APLICACIONES
 # ==============================
 INSTALLED_APPS = [
-    'cloudinary_storage',  # DEBE IR ANTES DE STATICFILES
+    'cloudinary_storage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
     'cloudinary',
     'biblioteca',
 ]
@@ -51,7 +44,7 @@ INSTALLED_APPS = [
 # ==============================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # Para estáticos en Render
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Debe ir después de SecurityMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -63,9 +56,6 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'makerlab.urls'
 WSGI_APPLICATION = 'makerlab.wsgi.application'
 
-# ==============================
-# TEMPLATES
-# ==============================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -83,19 +73,23 @@ TEMPLATES = [
 ]
 
 # ==============================
-# BASE DE DATOS
+# BASE DE DATOS (PARCHE PARA RENDER GRATIS)
 # ==============================
-# Recuerda que en Render los datos de SQLite se borran al reiniciar/desplegar
-# a menos que uses un disco persistente (Persistent Disk).
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# Intentará usar DATABASE_URL (Neon/Postgres), si no, usa SQLite en /tmp/ para evitar Error 500
+if os.getenv('DATABASE_URL'):
+    DATABASES = {
+        'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': '/tmp/db.sqlite3', # Cambiado para permitir escritura en Render
+        }
+    }
 
 # ==============================
-# CLOUDINARY & ALMACENAMIENTO
+# CLOUDINARY
 # ==============================
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv("CLOUDINARY_CLOUD_NAME"),
@@ -103,12 +97,16 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.getenv("CLOUDINARY_API_SECRET"),
 }
 
+# ==============================
+# STORAGES (CORREGIDO PARA EVITAR BUILD FAILED)
+# ==============================
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        # Cambiado de Manifest a Compressed para evitar el error FileNotFoundError
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
 
@@ -116,16 +114,9 @@ STORAGES = {
 # ARCHIVOS ESTÁTICOS Y MEDIA
 # ==============================
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # Asegúrate de que esta carpeta exista
 
-# Obligatorio para construir las URLs de las fotos
 MEDIA_URL = '/media/'
-
-# ==============================
-# AUTH & OTROS
-# ==============================
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'inicio'
-LOGOUT_REDIRECT_URL = 'inicio'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
