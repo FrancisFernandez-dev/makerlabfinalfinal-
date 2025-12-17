@@ -1,31 +1,22 @@
 import os
 from pathlib import Path
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
 
-# ======================================================
-# BASE DIR
-# ======================================================
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# ======================================================
+# ==============================
 # SECURITY
-# ======================================================
+# ==============================
 SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-dev-key")
-
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS",
-    "localhost,127.0.0.1"
+    "makerlabchile.onrender.com"
 ).split(",")
 
-
-# ======================================================
+# ==============================
 # APPLICATIONS
-# ======================================================
+# ==============================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -34,22 +25,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Cloudinary
     'cloudinary',
     'cloudinary_storage',
 
-    # Apps
     'biblioteca',
 ]
 
-
-# ======================================================
+# ==============================
 # MIDDLEWARE
-# ======================================================
+# ==============================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,17 +45,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
-# ======================================================
+# ==============================
 # URLS / WSGI
-# ======================================================
+# ==============================
 ROOT_URLCONF = 'makerlab.urls'
 WSGI_APPLICATION = 'makerlab.wsgi.application'
 
-
-# ======================================================
-# TEMPLATES (REQUERIDO PARA ADMIN)
-# ======================================================
+# ==============================
+# TEMPLATES
+# ==============================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -76,7 +61,6 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -85,10 +69,9 @@ TEMPLATES = [
     },
 ]
 
-
-# ======================================================
+# ==============================
 # DATABASE
-# ======================================================
+# ==============================
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -96,72 +79,33 @@ DATABASES = {
     }
 }
 
-
-# ======================================================
-# CLOUDINARY (MEDIA STORAGE)
-# ======================================================
-cloudinary.config(
-    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
-    api_key=os.getenv("CLOUDINARY_API_KEY"),
-    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
-    secure=True,
-)
+# ==============================
+# CLOUDINARY (ÚNICA CONFIG)
+# ==============================
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+}
 
 STORAGES = {
-    "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    'default': {
+        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
     },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
     },
 }
 
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
-    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
-    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
-}
-
-
-# ======================================================
+# ==============================
 # STATIC FILES
-# ======================================================
+# ==============================
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-
-# ======================================================
-# MEDIA (OBLIGATORIO AUNQUE USES CLOUDINARY)
-# ======================================================
-MEDIA_URL = '/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
-
-# ======================================================
+# ==============================
 # AUTH
-# ======================================================
+# ==============================
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'inicio'
 LOGOUT_REDIRECT_URL = 'inicio'
-
-
-# ======================================================
-# INTERNATIONALIZATION
-# ======================================================
-LANGUAGE_CODE = 'es'
-TIME_ZONE = 'UTC'
-USE_I18N = True
-USE_TZ = True
-
-
-# ======================================================
-# DEFAULT FIELD
-# ======================================================
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-print(
-    "CLOUDINARY CHECK →",
-    os.getenv("CLOUDINARY_CLOUD_NAME"),
-    os.getenv("CLOUDINARY_API_KEY"),
-    bool(os.getenv("CLOUDINARY_API_SECRET")),
-)
