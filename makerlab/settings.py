@@ -1,8 +1,7 @@
 import os
 from pathlib import Path
-
 import cloudinary
-import cloudinary_storage  # 👈 IMPORTANTE
+import cloudinary_storage
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -11,7 +10,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ==============================
 SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-dev-key")
 
-DEBUG = False  # 👈 FORZADO EN PRODUCCIÓN
+# RECOMENDACIÓN: Cambia a True si necesitas ver el error exacto en pantalla
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS",
@@ -22,16 +22,16 @@ ALLOWED_HOSTS = os.getenv(
 # APPLICATIONS
 # ==============================
 INSTALLED_APPS = [
+    # Cloudinary storage debe ir ANTES de staticfiles
+    'cloudinary_storage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    
     'cloudinary',
-    'cloudinary_storage',
-
     'biblioteca',
 ]
 
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 # ==============================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Para archivos estáticos en Render
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -49,9 +49,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# ==============================
-# URLS / WSGI
-# ==============================
 ROOT_URLCONF = 'makerlab.urls'
 WSGI_APPLICATION = 'makerlab.wsgi.application'
 
@@ -65,6 +62,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -76,6 +74,8 @@ TEMPLATES = [
 # ==============================
 # DATABASE
 # ==============================
+# NOTA: SQLite en Render es efímero. Los datos se borrarán en cada deploy
+# a menos que uses un "Persistent Disk".
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -84,23 +84,13 @@ DATABASES = {
 }
 
 # ==============================
-# CLOUDINARY (CRÍTICO)
+# CLOUDINARY & STORAGE
 # ==============================
-print(
-    "CLOUDINARY ENV →",
-    os.getenv("CLOUDINARY_CLOUD_NAME"),
-    os.getenv("CLOUDINARY_API_KEY"),
-    bool(os.getenv("CLOUDINARY_API_SECRET")),
-)
-
-cloudinary.config(
-    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
-    api_key=os.getenv("CLOUDINARY_API_KEY"),
-    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
-    secure=True,
-)
-
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv("CLOUDINARY_CLOUD_NAME"),
+    'API_KEY': os.getenv("CLOUDINARY_API_KEY"),
+    'API_SECRET': os.getenv("CLOUDINARY_API_SECRET"),
+}
 
 STORAGES = {
     "default": {
@@ -111,21 +101,20 @@ STORAGES = {
     },
 }
 
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
-    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
-    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
-}
-
 # ==============================
-# STATIC FILES
+# STATIC & MEDIA FILES
 # ==============================
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# Crucial para que Django maneje las URLs de las imágenes subidas
+MEDIA_URL = '/media/' 
+
 # ==============================
-# AUTH
+# AUTH & OTHERS
 # ==============================
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'inicio'
 LOGOUT_REDIRECT_URL = 'inicio'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
