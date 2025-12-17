@@ -18,7 +18,15 @@ cloudinary.config(
     secure=True
 )
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# 👉 STORAGE CORRECTO PARA DJANGO 6
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 
 
 # ==============================
@@ -26,8 +34,8 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # ==============================
 SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-dev-key")
 
-DEBUG = os.getenv("DEBUG", "False") == "False"
-  # ⚠️ En Render idealmente False
+# ✅ LÓGICA CORRECTA PARA DEBUG
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS",
@@ -119,8 +127,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-
-# ❌ NO USAR MEDIA LOCAL EN RENDER
+# ❌ NO MEDIA LOCAL EN PRODUCCIÓN
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = BASE_DIR / 'media'
 
