@@ -11,10 +11,7 @@ class Category(models.Model):
     ]
 
     nombre = models.CharField(max_length=100)
-    steam = models.CharField(
-        max_length=1,
-        choices=STEAM_CHOICES
-    )
+    steam = models.CharField(max_length=1, choices=STEAM_CHOICES)
 
     class Meta:
         verbose_name = "Categoría"
@@ -39,8 +36,9 @@ class Model3D(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
 
+    # ✅ CORRECTO PARA CLOUDINARY
     imagen = models.ImageField(
-        upload_to='modelos/',
+        upload_to="modelos",   # 👈 SIN SLASH FINAL
         blank=True,
         null=True
     )
@@ -69,6 +67,10 @@ class Model3D(models.Model):
             ('Avanzado', 'Avanzado'),
         ]
     )
+
+    class Meta:
+        verbose_name = "Modelo 3D"
+        verbose_name_plural = "Modelos 3D"
 
     def __str__(self):
         return self.nombre
