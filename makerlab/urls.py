@@ -7,7 +7,9 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # LOGIN / LOGOUT
+    # =====================
+    # AUTH
+    # =====================
     path(
         'login/',
         auth_views.LoginView.as_view(template_name='auth/login.html'),
@@ -19,11 +21,15 @@ urlpatterns = [
         name='logout'
     ),
 
-    # App principal
+    # =====================
+    # APP PRINCIPAL
+    # =====================
     path('', include('biblioteca.urls')),
 ]
 
-# Media en desarrollo
+# =====================
+# MEDIA SOLO EN DESARROLLO
+# =====================
 if settings.DEBUG:
     urlpatterns += static(
         settings.MEDIA_URL,
