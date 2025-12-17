@@ -84,7 +84,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': '/tmp/db.sqlite3', # Cambiado para permitir escritura en Render
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 
