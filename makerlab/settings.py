@@ -1,22 +1,17 @@
 import os
 from pathlib import Path
+import cloudinary
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ==============================
-# SECURITY
-# ==============================
 SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-dev-key")
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS",
-    "makerlabchile.onrender.com"
+    "localhost,127.0.0.1"
 ).split(",")
 
-# ==============================
-# APPLICATIONS
-# ==============================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -31,9 +26,6 @@ INSTALLED_APPS = [
     'biblioteca',
 ]
 
-# ==============================
-# MIDDLEWARE
-# ==============================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -45,15 +37,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# ==============================
-# URLS / WSGI
-# ==============================
 ROOT_URLCONF = 'makerlab.urls'
 WSGI_APPLICATION = 'makerlab.wsgi.application'
 
-# ==============================
-# TEMPLATES
-# ==============================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -69,9 +55,6 @@ TEMPLATES = [
     },
 ]
 
-# ==============================
-# DATABASE
-# ==============================
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -79,35 +62,32 @@ DATABASES = {
     }
 }
 
-# ==============================
-# CLOUDINARY (ÚNICA CONFIG)
-# ==============================
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
-}
-DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10 MB
-FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
+# ✅ CLOUDINARY (ESTO ES LO CLAVE)
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+    secure=True,
+)
 
 STORAGES = {
-    'default': {
-        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
-    'staticfiles': {
-        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
-# ==============================
-# STATIC FILES
-# ==============================
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
+}
+
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# ==============================
-# AUTH
-# ==============================
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'inicio'
 LOGOUT_REDIRECT_URL = 'inicio'
