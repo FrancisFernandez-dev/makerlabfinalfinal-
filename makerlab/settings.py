@@ -90,9 +90,10 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/tmp/db.sqlite3',  # <--- Esto es la clave
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 # ==============================
 # CLOUDINARY & ALMACENAMIENTO
 # ==============================
