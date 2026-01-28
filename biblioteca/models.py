@@ -36,11 +36,18 @@ class Model3D(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
 
-    # ✅ CORRECTO PARA CLOUDINARY
+    # ✅ (opcional) subir archivo (si en algún momento te funciona bien)
     imagen = models.ImageField(
-        upload_to="modelos",   # 👈 SIN SLASH FINAL
+        upload_to="modelos",
         blank=True,
         null=True
+    )
+
+    # ✅ NUEVO: pegar link a imagen (recomendado para Render)
+    image_url = models.URLField(
+        blank=True,
+        null=True,
+        help_text="Pega aquí el link directo a una imagen (https://...jpg/png/webp)."
     )
 
     url_archivo = models.URLField(
@@ -74,3 +81,20 @@ class Model3D(models.Model):
 
     def __str__(self):
         return self.nombre
+
+    @property
+    def imagen_display(self):
+        """
+        Devuelve la mejor URL disponible:
+        1) image_url (link pegado)
+        2) imagen subida (si existe)
+        3) None
+        """
+        if self.image_url:
+            return self.image_url
+        if self.imagen:
+            try:
+                return self.imagen.url
+            except Exception:
+                return None
+        return None

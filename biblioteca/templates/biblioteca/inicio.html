@@ -17,7 +17,7 @@
 
                 <p class="hero-subtitle">
                     En MakerLabChile trabajamos apoyando el desarrollo de la educación
-                    a través de la tecnología y la cultura maker...
+                    a través de la tecnología y la cultura maker.
                 </p>
 
                 <form method="get" action="{% url 'lista_modelos' %}" class="hero-search d-flex">
@@ -26,7 +26,6 @@
                         name="q"
                         class="form-control"
                         placeholder="Buscar modelos educativos..."
-                        value="{{ termino_busqueda|default:'' }}"
                     >
                 </form>
 
@@ -36,7 +35,9 @@
             </div>
 
             <div class="col-md-6 text-center">
-                <img src="{% static 'img/hero-3d.jpg' %}" alt="Modelos 3D educativos" class="hero-image">
+                <img src="{% static 'img/hero-3d.jpg' %}"
+                     alt="Modelos 3D educativos"
+                     class="hero-image">
             </div>
 
         </div>
@@ -51,81 +52,79 @@
             Explora los modelos educativos disponibles para escuelas y hogares.
         </p>
 
-        <section class="steam-categories mb-5" id="steam">
-            <h3 class="text-center mb-4">Categorías educativas (STEAM)</h3>
-            <div class="row justify-content-center g-4">
-                <div class="col-6 col-md-2">
-                    <a href="?steam=S#steam" class="steam-card steam-s {% if steam_activo == 'S' %}active{% endif %}">
-                        <div class="steam-icon">S</div>
-                        <div class="steam-label">Ciencia</div>
-                    </a>
-                </div>
-                <div class="col-6 col-md-2">
-                    <a href="{% url 'inicio' %}#steam" class="steam-card steam-all {% if not steam_activo %}active{% endif %}">
-                        <div class="steam-icon">★</div>
-                        <div class="steam-label">Todos</div>
-                    </a>
-                </div>
-            </div>
-        </section>
-
         {% if user.is_authenticated %}
         <div class="d-flex justify-content-end mb-4">
             <a href="{% url 'agregar_modelo' %}" class="btn btn-success">
-                <i class="fas fa-plus"></i> + Agregar modelo
+                + Agregar modelo
             </a>
         </div>
         {% endif %}
 
         <div class="row">
+
             {% for modelo in modelos %}
             <div class="col-md-4 mb-4">
-                {% if modelo.archivo_3d %}
-                    <a href="{{ modelo.archivo_3d.url }}" target="_blank" class="card-link text-decoration-none text-dark">
+
+                {% if modelo.url_archivo %}
+                    <a href="{{ modelo.url_archivo }}"
+                       target="_blank"
+                       class="card-link text-decoration-none text-dark">
                 {% else %}
-                    <a href="#" class="card-link text-decoration-none text-dark">
+                    <a href="#"
+                       class="card-link text-decoration-none text-dark">
                 {% endif %}
 
                     <div class="card model-card h-100 shadow-sm border-0">
-                        
-                        <div class="img-container" style="height: 200px; overflow: hidden; background: #f8f9fa;">
-                            {% if modelo.imagen %}
-                                <img src="{{ modelo.imagen.url }}" 
-                                     class="card-img-top" 
+
+                        <div class="img-container"
+                             style="height:200px;overflow:hidden;background:#f8f9fa;">
+
+                            {% if modelo.imagen_display %}
+                                <img src="{{ modelo.imagen_display }}"
                                      alt="{{ modelo.nombre }}"
-                                     style="width: 100%; height: 100%; object-fit: cover;">
+                                     class="card-img-top"
+                                     style="width:100%;height:100%;object-fit:cover;">
                             {% else %}
-                                <img src="{% static 'img/placeholder.png' %}" 
-                                     class="card-img-top" 
+                                <img src="{% static 'img/placeholder.png' }}"
                                      alt="Sin imagen"
-                                     style="width: 100%; height: 100%; object-fit: contain; opacity: 0.5;">
+                                     class="card-img-top"
+                                     style="width:100%;height:100%;object-fit:contain;opacity:.5;">
                             {% endif %}
+
                         </div>
 
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title fw-bold">{{ modelo.nombre }}</h5>
+                            <h5 class="card-title fw-bold">
+                                {{ modelo.nombre }}
+                            </h5>
+
                             <p class="card-text text-muted flex-grow-1">
                                 {{ modelo.descripcion|truncatewords:15 }}
                             </p>
-                            
+
                             <div class="model-meta mt-3 pt-2 border-top">
                                 <span class="badge bg-light text-dark border">
-                                    {{ modelo.categoria.get_steam_display|default:"General" }}
+                                    {{ modelo.categoria.get_steam_display }}
                                 </span>
-                                <small class="text-secondary ms-2">{{ modelo.nivel }}</small>
+                                <small class="text-secondary ms-2">
+                                    {{ modelo.nivel }}
+                                </small>
                             </div>
                         </div>
+
                     </div>
                 </a>
             </div>
+
             {% empty %}
             <div class="col-12 text-center py-5">
-                <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
-                <p class="text-muted">No se encontraron modelos para esta categoría.</p>
+                <p class="text-muted">
+                    No se encontraron modelos.
+                </p>
             </div>
             {% endfor %}
-        </div>
 
+        </div>
     </div>
 </section>
 

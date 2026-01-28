@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from .models import Category, Etiqueta, Model3D
 
 
@@ -22,6 +23,7 @@ class Model3DAdmin(admin.ModelAdmin):
         'nombre',
         'categoria',
         'nivel',
+        'preview_imagen',
     )
     list_filter = (
         'categoria',
@@ -33,3 +35,20 @@ class Model3DAdmin(admin.ModelAdmin):
     )
     filter_horizontal = ('etiquetas',)
     ordering = ('nombre',)
+
+    # importante: incluir el campo en el formulario del admin
+    fields = (
+        'nombre', 'descripcion',
+        'image_url', 'imagen',   # 👈 primero URL, luego subida
+        'url_archivo',
+        'categoria', 'etiquetas',
+        'nivel',
+    )
+
+    def preview_imagen(self, obj):
+        url = obj.imagen_display
+        if not url:
+            return "—"
+        return format_html('<img src="{}" style="height:50px;border-radius:6px;" />', url)
+
+    preview_imagen.short_description = "Imagen"
